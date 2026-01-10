@@ -7,7 +7,7 @@
 ### One-Line Installation
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/YOUR_USERNAME/pihole-trmnl/main/pihole-plugin/easy-install/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/jetsharklambo/TRMNL-Pihole-Monitor/main/install.sh | bash
 ```
 
 That's it! The script will:
@@ -252,7 +252,7 @@ sudo grep "API_TOKEN=" /etc/systemd/system/pihole-trmnl-api.service | cut -d'=' 
 To update to the latest version:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/YOUR_USERNAME/pihole-trmnl/main/pihole-plugin/easy-install/update.sh | bash
+curl -sSL https://raw.githubusercontent.com/jetsharklambo/TRMNL-Pihole-Monitor/main/update.sh | bash
 ```
 
 The update script:
@@ -325,7 +325,7 @@ echo "System: https://$HOSTNAME/info/system?token=$NEW_TOKEN"
 To completely remove Pi-hole TRMNL Monitor:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/YOUR_USERNAME/pihole-trmnl/main/pihole-plugin/easy-install/uninstall.sh | bash
+curl -sSL https://raw.githubusercontent.com/jetsharklambo/TRMNL-Pihole-Monitor/main/uninstall.sh | bash
 ```
 
 The uninstall script will:
