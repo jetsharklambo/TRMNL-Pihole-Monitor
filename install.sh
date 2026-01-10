@@ -1,6 +1,6 @@
 #!/bin/bash
 # One-command installer for Pi-hole TRMNL Monitor with Tailscale Funnel
-# Usage: curl -sSL https://raw.githubusercontent.com/YOUR_USERNAME/pihole-trmnl/main/pihole-plugin/easy-install/install.sh | bash
+# Usage: curl -sSL https://raw.githubusercontent.com/jetsharklambo/TRMNL-Pihole-Monitor/main/install.sh | bash
 #
 # This script automatically:
 # - Detects Pi-hole installation
@@ -22,7 +22,7 @@ NC='\033[0m' # No Color
 # Configuration
 INSTALL_DIR="/opt/pihole-trmnl"
 SERVICE_NAME="pihole-trmnl-api"
-GITHUB_RAW_URL="https://raw.githubusercontent.com/YOUR_USERNAME/pihole-trmnl/main/pihole-plugin/easy-install"
+GITHUB_RAW_URL="https://raw.githubusercontent.com/jetsharklambo/TRMNL-Pihole-Monitor/main"
 
 # Global variables
 PIHOLE_PASSWORD=""

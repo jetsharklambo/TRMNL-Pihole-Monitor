@@ -15,7 +15,7 @@ NC='\033[0m'
 # Configuration
 INSTALL_DIR="/opt/pihole-trmnl"
 SERVICE_NAME="pihole-trmnl-api"
-GITHUB_RAW_URL="https://raw.githubusercontent.com/YOUR_USERNAME/pihole-trmnl/main/pihole-plugin/easy-install"
+GITHUB_RAW_URL="https://raw.githubusercontent.com/jetsharklambo/TRMNL-Pihole-Monitor/main"
 
 print_header() {
     echo -e "${BLUE}=========================================="

@@ -338,7 +338,7 @@ def index():
             "/stats/raw?token=YOUR_TOKEN": "Raw Pi-hole API response (debug)",
             "/info/system?token=YOUR_TOKEN": "System info (CPU, RAM, disk usage)"
         },
-        "documentation": "https://github.com/your-repo/pihole-trmnl-plugin"
+        "documentation": "https://github.com/jetsharklambo/TRMNL-Pihole-Monitor"
     })
 
 
