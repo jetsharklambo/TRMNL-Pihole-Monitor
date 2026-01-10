@@ -224,6 +224,11 @@ setup_tailscale() {
         print_warning "Could not determine Tailscale hostname (will use IP)"
     fi
 
+    # Set current user as Tailscale operator (allows non-root Funnel commands)
+    print_step "Setting Tailscale operator permissions..."
+    sudo tailscale set --operator=$USER
+    print_success "Operator permissions configured"
+
     # Enable Tailscale Funnel for HTTPS access
     echo
     print_step "Enabling Tailscale Funnel for HTTPS access..."
