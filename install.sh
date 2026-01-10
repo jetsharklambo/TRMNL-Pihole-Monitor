@@ -110,20 +110,34 @@ check_prerequisites() {
 get_pihole_credentials() {
     print_header "Step 2/9: Extracting Pi-hole Credentials"
 
-    # Try to get password from setupVars.conf
-    if [ -f "/etc/pihole/setupVars.conf" ]; then
+    # Try to auto-detect Pi-hole password
+    # Priority 1: Pi-hole v6 CLI password (temporary plaintext password for CLI tools)
+    if [ -f "/etc/pihole/cli_pw" ]; then
+        PIHOLE_PASSWORD=$(sudo cat /etc/pihole/cli_pw 2>/dev/null | tr -d '\n')
+
+        if [ -n "$PIHOLE_PASSWORD" ]; then
+            print_success "Auto-detected Pi-hole API password from cli_pw (Pi-hole v6)"
+        else
+            print_warning "Could not read password from cli_pw"
+            echo
+            read -sp "Enter your Pi-hole web password: " PIHOLE_PASSWORD
+            echo
+        fi
+    # Priority 2: Pi-hole v5 setupVars.conf (legacy)
+    elif [ -f "/etc/pihole/setupVars.conf" ]; then
         PIHOLE_PASSWORD=$(sudo grep "WEBPASSWORD=" /etc/pihole/setupVars.conf 2>/dev/null | cut -d'=' -f2)
 
         if [ -n "$PIHOLE_PASSWORD" ]; then
-            print_success "Auto-detected Pi-hole API password from setupVars.conf"
+            print_success "Auto-detected Pi-hole API password from setupVars.conf (Pi-hole v5)"
         else
             print_warning "Could not auto-detect password from setupVars.conf"
             echo
             read -sp "Enter your Pi-hole web password: " PIHOLE_PASSWORD
             echo
         fi
+    # Priority 3: Manual entry
     else
-        print_warning "setupVars.conf not found"
+        print_warning "Could not find Pi-hole password file (checked cli_pw and setupVars.conf)"
         echo
         read -sp "Enter your Pi-hole web password: " PIHOLE_PASSWORD
         echo
