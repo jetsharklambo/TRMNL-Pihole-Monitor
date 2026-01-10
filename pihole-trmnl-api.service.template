@@ -18,10 +18,8 @@ Environment="SERVER_PORT=8080"
 Environment="CACHE_DURATION=60"
 
 # Ensure Tailscale is connected and Funnel is enabled before starting Flask
-# Wait a few seconds for Tailscale to fully initialize
-ExecStartPre=/bin/sleep 5
-# Wait for Tailscale to be connected
-ExecStartPre=/usr/bin/tailscale status --wait
+# Wait for Tailscale to fully initialize (give it time to connect)
+ExecStartPre=/bin/sleep 10
 # Enable Funnel on port 443 -> 8080 (HTTPS public access)
 ExecStartPre=/usr/bin/tailscale funnel --bg --https=443 8080
 
