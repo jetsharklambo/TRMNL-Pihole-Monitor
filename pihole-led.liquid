@@ -1,0 +1,297 @@
+{%- comment -%}
+  Pi-hole TRMNL Plugin - LED Matrix Display
+  Three-column layout with Pi-hole logo status indicator
+{%- endcomment -%}
+
+{%- comment -%} Import Bootstrap Icons {%- endcomment -%}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
+
+{%- comment -%} Main Layout {%- endcomment -%}
+<div class="layout layout--col px--small py--xsmall">
+
+  {%- comment -%} Three Column Grid {%- endcomment -%}
+  <div class="grid grid--cols-3">
+
+    {%- comment -%} COLUMN 1: Pi-hole Logo Status Indicator + System Stats {%- endcomment -%}
+    <div class="layout layout--col layout--center gap--[4px]">
+      {%- comment -%} Pi-hole Logo {%- endcomment -%}
+
+      {%- comment -%} System Stats {%- endcomment -%}
+      <div class="layout layout--col" style="width: 100%;">
+
+        
+        {%- comment -%} RAM Usage {%- endcomment -%}
+        <div class="layout layout--col layout--center-x gap--[1px]">
+                     <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+           class="{% if IDX_0.pihole_enabled %}logo-on{% else %}logo-off{% endif %}"
+           style="width: 220px; height: 220px;">
+        <title>Pi-hole</title>
+        <path d="M4.344 0c.238 4.792 3.256 7.056 6.252 7.376.165-1.692-4.319-5.6-4.319-5.6-.008-.011.009-.025.019-.014 0 0 4.648 4.01 5.423 5.645 2.762-.15 5.196-1.947 5-4.912 0 0-4.12-.613-5 4.618C11.48 2.753 8.993 0 4.344 0zM12 7.682v.002a3.68 3.68 0 0 0-2.591 1.077L4.94 13.227a3.683 3.683 0 0 0-.86 1.356 3.31 3.31 0 0 0-.237 1.255A3.681 3.681 0 0 0 4.92 18.45l4.464 4.466a3.69 3.69 0 0 0 2.251 1.06l.002.001c.093.01.187.015.28.017l-.1-.008c.06.003.117.009.177.009l-.077-.001L12 24l-.004-.005a3.68 3.68 0 0 0 2.61-1.077l4.469-4.465a3.683 3.683 0 0 0 1.006-1.888l.012-.063a3.682 3.682 0 0 0 .057-.541l.003-.061c0-.017.003-.05.004-.06h-.002a3.683 3.683 0 0 0-1.077-2.607l-4.466-4.468a3.694 3.694 0 0 0-1.564-.927l-.07-.02a3.43 3.43 0 0 0-.946-.133L12 7.682zm3.165 3.357c.023 1.748-1.33 3.078-1.33 4.806.164 2.227 1.733 3.207 3.266 3.146-.035.003-.068.007-.104.009-1.847.135-3.209-1.326-5.002-1.326-2.23.164-3.21 1.736-3.147 3.27l-.008-.104c-.133-1.847 1.328-3.21 1.328-5.002-.173-2.32-1.867-3.284-3.46-3.132.1-.011.203-.021.31-.027 1.847-.133 3.209 1.328 5.002 1.328 2.082-.155 3.074-1.536 3.145-2.968z"/>
+      </svg>
+         <div class="flex flex--center-y gap--[2px]">
+          <i class="bi bi-memory" style="font-size: 40px;"></i>
+            <div id="ram-percent-led" class="led-text"></div> </div>
+                   <div id="ram-usage-led" class="led-text"></div>
+                    <div class="flex flex--center-y gap--[1px]">
+            <i class="bi bi-cpu" style="font-size: 40px;"></i>
+            <div id="cpu-percent-led" class="led-text"></div>
+          </div>
+          <div id="cpu-cores-led" class="led-text"></div>
+                   <div class="flex flex--center-y gap--[2px]">
+            <i class="bi bi-clock-history" style="font-size: 40px;"></i>
+            <div id="uptime-led" class="led-text"></div>
+          </div>
+        </div>
+
+           </div>
+    </div>
+
+    {%- comment -%} COLUMN 2: Main Statistics {%- endcomment -%}
+    <div class="layout layout--col layout--center-y gap--[4px]">
+
+      {%- comment -%} Total Queries {%- endcomment -%}
+
+      {%- comment -%} Blocked Queries {%- endcomment -%}
+      <div class="layout layout--col layout--center-x gap--[1px]">
+          <div class="layout layout--col layout--center-x gap--[1px]">  
+        <i class="bi bi-search" style="font-size: 40px;"></i>
+        <div id="total-queries-led" class="led-text"></div>
+        <div id="total-queries-label" class="led-text"></div>
+</div>
+           <div class="layout layout--col layout--center-x gap--[1px]">    
+        <i class="bi bi-shield-lock" style="font-size: 40px;"></i>
+        <div id="blocked-queries-led" class="led-text"></div>
+        <div id="blocked-queries-label" class="led-text"></div>
+             </div>
+         <div class="layout layout--col layout--center-x gap--[1px]">  
+               <i class="bi bi-shield-shaded" style="font-size: 40px;"></i>
+        <div id="percent-blocked-led" class="led-text"></div>
+        <div id="percent-blocked-label" class="led-text"></div>
+             </div>
+      </div>
+
+      {%- comment -%} Block Percentage {%- endcomment -%}
+    </div>
+
+    {%- comment -%} COLUMN 3: Secondary Stats {%- endcomment -%}
+    <div class="layout layout--col layout--center-y gap--[4px]">
+
+      {%- comment -%} Active Clients {%- endcomment -%}
+      <div class="layout layout--col">
+        <i class="bi bi-people-fill" style="font-size: 18px;"></i>
+        <div id="active-clients-led" class="led-text"></div>
+        <div id="active-clients-label" class="led-text"></div>
+      </div>
+
+      {%- comment -%} Blocklist Size {%- endcomment -%}
+      <div class="layout layout--col layout--center-x gap--[1px]">
+        <i class="bi bi-ban" style="font-size: 18px;"></i>
+        <div id="domains-blocked-led" class="led-text"></div>
+        <div id="domains-blocked-label" class="led-text"></div>
+      </div>
+
+      {%- comment -%} Cache Hit Rate {%- endcomment -%}
+      <div class="layout layout--col layout--center-x gap--[1px]">
+        <i class="bi bi-lightning-charge-fill" style="font-size: 18px;"></i>
+        <div id="cache-percent-led" class="led-text"></div>
+        <div id="cache-percent-label" class="led-text"></div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+  {%- comment -%} Title Bar {%- endcomment -%}
+  <div class="flex flex--between flex--center-y mt--small pt--small" style="border-top: 3px solid #000000; min-height: 40px;">
+    <div class="flex flex--center-y gap--small">
+      <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 24px; height: 24px; fill: #000000;">
+        <path d="M4.344 0c.238 4.792 3.256 7.056 6.252 7.376.165-1.692-4.319-5.6-4.319-5.6-.008-.011.009-.025.019-.014 0 0 4.648 4.01 5.423 5.645 2.762-.15 5.196-1.947 5-4.912 0 0-4.12-.613-5 4.618C11.48 2.753 8.993 0 4.344 0zM12 7.682v.002a3.68 3.68 0 0 0-2.591 1.077L4.94 13.227a3.683 3.683 0 0 0-.86 1.356 3.31 3.31 0 0 0-.237 1.255A3.681 3.681 0 0 0 4.92 18.45l4.464 4.466a3.69 3.69 0 0 0 2.251 1.06l.002.001c.093.01.187.015.28.017l-.1-.008c.06.003.117.009.177.009l-.077-.001L12 24l-.004-.005a3.68 3.68 0 0 0 2.61-1.077l4.469-4.465a3.683 3.683 0 0 0 1.006-1.888l.012-.063a3.682 3.682 0 0 0 .057-.541l.003-.061c0-.017.003-.05.004-.06h-.002a3.683 3.683 0 0 0-1.077-2.607l-4.466-4.468a3.694 3.694 0 0 0-1.564-.927l-.07-.02a3.43 3.43 0 0 0-.946-.133L12 7.682zm3.165 3.357c.023 1.748-1.33 3.078-1.33 4.806.164 2.227 1.733 3.207 3.266 3.146-.035.003-.068.007-.104.009-1.847.135-3.209-1.326-5.002-1.326-2.23.164-3.21 1.736-3.147 3.27l-.008-.104c-.133-1.847 1.328-3.21 1.328-5.002-.173-2.32-1.867-3.284-3.46-3.132.1-.011.203-.021.31-.027 1.847-.133 3.209 1.328 5.002 1.328 2.082-.155 3.074-1.536 3.145-2.968z"/>
+      </svg>
+      <span class="title title--large">Pi-hole</span>
+    </div>
+    {% if IDX_0.pihole_enabled %}
+      <div class="flex flex--center-y gap--xsmall">
+        <i class="bi bi-check-circle-fill" style="font-size: 20px; color: #000000;"></i>
+        <span class="label label--large">Active</span>
+      </div>
+    {% else %}
+      <div class="flex flex--center-y gap--xsmall">
+        <i class="bi bi-x-circle-fill" style="font-size: 20px; color: #000000;"></i>
+        <span class="label label--large">Disabled</span>
+      </div>
+    {% endif %}
+  </div>
+
+</div>
+
+
+{%- comment -%}
+  JavaScript: LED Matrix Rendering
+  Note: gridMap and renderDigit() are provided by shared-led.md
+{%- endcomment -%}
+<script>
+  // Render LED text helper - renders a complete number/string
+  function renderLEDText(text, size) {
+    var chars = String(text).split('');
+    var html = '';
+    chars.forEach(function(char) {
+      html += renderDigit(char, size);
+    });
+    return html;
+  }
+
+  // Wait for DOM to be ready before manipulating elements
+  document.addEventListener('DOMContentLoaded', function() {
+    // Debug: Check if renderDigit is available
+    console.log('TRMNL LED Debug: renderDigit available?', typeof renderDigit);
+    console.log('TRMNL LED Debug: gridMap available?', typeof gridMap);
+
+    // Total Queries
+    var totalQueriesEl = document.getElementById('total-queries-led');
+    if (totalQueriesEl) {
+      console.log('TRMNL LED Debug: Rendering total_queries:', '{{ IDX_0.total_queries }}');
+      totalQueriesEl.innerHTML = renderLEDText('{{ IDX_0.total_queries }}', 32);
+    }
+    var totalQueriesLabelEl = document.getElementById('total-queries-label');
+    if (totalQueriesLabelEl) {
+      totalQueriesLabelEl.innerHTML = renderLEDText('queries', 14);
+    }
+
+    // Blocked Queries
+    var blockedQueriesEl = document.getElementById('blocked-queries-led');
+    if (blockedQueriesEl) {
+      blockedQueriesEl.innerHTML = renderLEDText('{{ IDX_0.blocked_queries }}', 28);
+    }
+    var blockedQueriesLabelEl = document.getElementById('blocked-queries-label');
+    if (blockedQueriesLabelEl) {
+      blockedQueriesLabelEl.innerHTML = renderLEDText('blocked', 14);
+    }
+
+    // Blocked Percentage
+    var percentBlockedEl = document.getElementById('percent-blocked-led');
+    if (percentBlockedEl) {
+      percentBlockedEl.innerHTML = renderLEDText('{{ IDX_0.percent_blocked }}%', 28);
+    }
+    var percentBlockedLabelEl = document.getElementById('percent-blocked-label');
+    if (percentBlockedLabelEl) {
+      percentBlockedLabelEl.innerHTML = renderLEDText('blocked', 14);
+    }
+
+    // Active Clients
+    var activeClientsEl = document.getElementById('active-clients-led');
+    if (activeClientsEl) {
+      activeClientsEl.innerHTML = renderLEDText('{{ IDX_0.active_clients }}', 30);
+    }
+    var activeClientsLabelEl = document.getElementById('active-clients-label');
+    if (activeClientsLabelEl) {
+      activeClientsLabelEl.innerHTML = renderLEDText('clients', 14);
+    }
+
+    // Domains Blocked
+    var domainsBlockedEl = document.getElementById('domains-blocked-led');
+    if (domainsBlockedEl) {
+      domainsBlockedEl.innerHTML = renderLEDText('{{ IDX_0.domains_blocked }}', 22);
+    }
+    var domainsBlockedLabelEl = document.getElementById('domains-blocked-label');
+    if (domainsBlockedLabelEl) {
+      domainsBlockedLabelEl.innerHTML = renderLEDText('blocklist', 14);
+    }
+
+    // Cache Percentage
+    {% assign cache_percent = IDX_0.queries_cached | times: 100 | divided_by: IDX_0.total_queries %}
+    var cachePercentEl = document.getElementById('cache-percent-led');
+    if (cachePercentEl) {
+      cachePercentEl.innerHTML = renderLEDText('{{ cache_percent }}%', 22);
+    }
+    var cachePercentLabelEl = document.getElementById('cache-percent-label');
+    if (cachePercentLabelEl) {
+      cachePercentLabelEl.innerHTML = renderLEDText('cache', 14);
+    }
+
+    // System Stats - RAM Usage
+    var ramPercentEl = document.getElementById('ram-percent-led');
+    if (ramPercentEl) {
+      ramPercentEl.innerHTML = renderLEDText('{{ IDX_1.memory.percent }}%', 24);
+    }
+    var ramUsageEl = document.getElementById('ram-usage-led');
+    if (ramUsageEl) {
+      ramUsageEl.innerHTML = renderLEDText('{{ IDX_1.memory.used_mb | round }}/{{ IDX_1.memory.total_mb | round }}mb', 10);
+    }
+
+    // System Stats - CPU Usage
+    var cpuPercentEl = document.getElementById('cpu-percent-led');
+    if (cpuPercentEl) {
+      cpuPercentEl.innerHTML = renderLEDText('{{ IDX_1.cpu.percent }}%', 20);
+    }
+
+
+    // System Stats - Uptime (convert seconds to days, hours, minutes)
+    {% assign total_seconds = IDX_1.uptime_seconds %}
+    {% assign days = total_seconds | divided_by: 86400 %}
+    {% assign remaining_after_days = total_seconds | modulo: 86400 %}
+    {% assign hours = remaining_after_days | divided_by: 3600 %}
+    {% assign remaining_after_hours = remaining_after_days | modulo: 3600 %}
+    {% assign minutes = remaining_after_hours | divided_by: 60 %}
+
+    var uptimeEl = document.getElementById('uptime-led');
+    if (uptimeEl) {
+      {% if days > 0 %}
+        uptimeEl.innerHTML = renderLEDText('{{ days }}d {{ hours }}h {{ minutes }}m', 20);
+      {% elsif hours > 0 %}
+        uptimeEl.innerHTML = renderLEDText('{{ hours }}h {{ minutes }}m', 10);
+      {% else %}
+        uptimeEl.innerHTML = renderLEDText('{{ minutes }}m', 10);
+      {% endif %}
+    }
+  });
+</script>
+
+<style>
+  /* LED matrix colors - E-ink optimized */
+  .number-on {
+    fill: #1a1a1a;
+  }
+
+  .number-off {
+    fill: #e8e8e8;
+  }
+
+  /* Pi-hole logo states */
+  .logo-on {
+    opacity: 1;
+    fill: #000000;
+  }
+
+  .logo-off {
+    opacity: 0.2;
+    fill: #000000;
+  }
+
+  /* Bootstrap Icons styling */
+  .bi {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1;
+  }
+
+  /* Bootstrap Icons size classes */
+  .bi-sm { font-size: 18px; }
+  .bi-md { font-size: 24px; }
+  .bi-lg { font-size: 36px; }
+  .bi-xl { font-size: 48px; }
+
+  .icon-on {
+    opacity: 1;
+  }
+
+  .icon-off {
+    opacity: 0.3;
+  }
+
+  /* LED text container styling */
+  .led-text {
+    display: inline-flex;
+    gap: 2px;
+    align-items: center;
+  }
+</style>

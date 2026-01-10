@@ -1,0 +1,40 @@
+[Unit]
+Description=Pi-hole TRMNL API Server with Tailscale Funnel
+After=network-online.target pihole-FTL.service tailscaled.service
+Wants=network-online.target pihole-FTL.service
+Requires=tailscaled.service
+
+[Service]
+Type=simple
+User={{USER}}
+Group={{USER}}
+WorkingDirectory={{INSTALL_DIR}}
+
+# Environment configuration
+Environment="PIHOLE_URL=http://localhost"
+Environment="PIHOLE_PASSWORD={{PIHOLE_PASSWORD}}"
+Environment="API_TOKEN={{API_TOKEN}}"
+Environment="SERVER_PORT=8080"
+Environment="CACHE_DURATION=60"
+
+# Ensure Tailscale is connected and Funnel is enabled before starting Flask
+# Wait a few seconds for Tailscale to fully initialize
+ExecStartPre=/bin/sleep 5
+# Wait for Tailscale to be connected
+ExecStartPre=/usr/bin/tailscale status --wait
+# Enable Funnel on port 443 -> 8080 (HTTPS public access)
+ExecStartPre=/usr/bin/tailscale funnel --bg --https=443 8080
+
+# Run Flask server using virtual environment Python
+ExecStart={{INSTALL_DIR}}/venv/bin/python3 {{INSTALL_DIR}}/pihole_api_server.py
+
+# Restart on failure
+Restart=always
+RestartSec=10
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

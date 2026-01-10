@@ -1,0 +1,87 @@
+# macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Backup files
+*.backup
+*.bak
+*~
+
+# Temporary files
+*.tmp
+/tmp/
+temp/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+
+# Logs
+*.log
+logs/
+/var/log/
+
+# Sensitive data
+*.conf
+tokens.json
+token.txt
+*.key
+*.pem
+secrets/
+.env
+.env.local
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+
+# systemd service files (generated during install)
+*.service
+
+# Token backups from rotation script
+pihole-trmnl-token-backup-*.txt
+
+# Test outputs
+test-output/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# OS-specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
