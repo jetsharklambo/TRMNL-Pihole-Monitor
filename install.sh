@@ -229,8 +229,8 @@ setup_tailscale() {
     print_step "Enabling Tailscale Funnel for HTTPS access..."
     print_info "This allows TRMNL to reach your Pi-hole via public HTTPS URL"
 
-    # Enable funnel on port 443 -> 8080
-    if sudo tailscale funnel --bg --https=443 8080 2>/dev/null; then
+    # Enable funnel on port 8443 -> 8080 (using 8443 to avoid conflict with Pi-hole FTL on port 443)
+    if sudo tailscale funnel --bg --https=8443 8080 2>/dev/null; then
         sleep 2
 
         # Verify funnel is running
@@ -425,7 +425,7 @@ Environment="CACHE_DURATION=60"
 # Ensure Tailscale is connected and Funnel is enabled before starting Flask
 # Wait for Tailscale to fully initialize (give it time to connect)
 ExecStartPre=/bin/sleep 10
-ExecStartPre=/usr/bin/tailscale funnel --bg --https=443 8080
+ExecStartPre=/usr/bin/tailscale funnel --bg --https=8443 8080
 
 # Run using virtual environment Python
 ExecStart=$INSTALL_DIR/venv/bin/python3 $INSTALL_DIR/pihole_api_server.py

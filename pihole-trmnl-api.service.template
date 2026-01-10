@@ -20,8 +20,8 @@ Environment="CACHE_DURATION=60"
 # Ensure Tailscale is connected and Funnel is enabled before starting Flask
 # Wait for Tailscale to fully initialize (give it time to connect)
 ExecStartPre=/bin/sleep 10
-# Enable Funnel on port 443 -> 8080 (HTTPS public access)
-ExecStartPre=/usr/bin/tailscale funnel --bg --https=443 8080
+# Enable Funnel on port 8443 -> 8080 (using 8443 to avoid conflict with Pi-hole FTL on port 443)
+ExecStartPre=/usr/bin/tailscale funnel --bg --https=8443 8080
 
 # Run Flask server using virtual environment Python
 ExecStart={{INSTALL_DIR}}/venv/bin/python3 {{INSTALL_DIR}}/pihole_api_server.py
