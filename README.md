@@ -9,6 +9,7 @@
 ```bash
 curl -sSL https://raw.githubusercontent.com/jetsharklambo/TRMNL-Pihole-Monitor/main/install.sh | bash
 ```
+![TRMNL Pihole Monitor screenshot](https://github.com/jetsharklambo/TRMNL-Pihole-Monitor/blob/main/pihole.png?raw=true)
 
 That's it! The script will:
 - ✅ Auto-detect your Pi-hole installation
